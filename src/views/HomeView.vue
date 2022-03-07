@@ -8,7 +8,8 @@
     Ce mini-jeux m'a permis a la fois de travailler les routing dans vue JS, Mais également de renforcer mes acquis en terme d'algorithmie.
     </p>
     <p>
-      J'ai également pu continuer a pratiquer le framework
+      J'ai également pu continuer a pratiquer le framework <br><br>
+      Comme vous le constaterez je n'ai pas mis l'accent sur le design mais bien sur des fonctionnalités
     </p>
   </div>
 </template>

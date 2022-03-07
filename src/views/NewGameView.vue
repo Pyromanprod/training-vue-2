@@ -12,7 +12,6 @@
         </div>
       </div>
       <div class="col-6">
-        <p>{{ secretNb }}</p>
         <p>Nombre d'essaie {{ nbCoup }}</p>
         <p>{{ response }}</p>
         <Start v-if="win" @secretNb="(nb)=>this.secretNb = nb" @click="reset"/>
@@ -69,7 +68,7 @@ export default {
         this.listNbTry.push({nb: this.nbTry, response: "Plus"});
         this.nbTry = "";
       } else {
-        this.response = "Bravo Vous avez trouvé en " + this.nbCoup + " Coups"
+        this.response = "Bravo Vous avez trouvé " + this.secretNb +" en " + this.nbCoup + " Coups"
         this.win = true;
       }
 
