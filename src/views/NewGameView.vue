@@ -3,71 +3,88 @@
     <h1 class="mb-5">Nouvelle partie</h1>
   </div>
   <div class="container">
-    <div class="row">
+    <div class="row" v-if="secretNb!==0">
       <div class="col-6">
         <div class="form-floating mb-3">
-          <input type="number" class="form-control" id="nbTry" placeholder="2" v-model="nbTry"  @keyup.enter="checkNb">
+          <input type="number" class="form-control " id="nbTry" placeholder="2" v-model="nbTry" @keyup.enter="checkNb">
           <button class="btn btn-secondary mt-3" @click="checkNb">Essayer</button>
           <label for="nbTry">Entrez un nombre entre 1 et 100</label>
         </div>
       </div>
       <div class="col-6">
-          <p>Ici ce sera un recap des nombres essayé</p>
+        <p>{{ secretNb }}</p>
         <p>Nombre d'essaie {{ nbCoup }}</p>
         <p>{{ response }}</p>
+        <Start v-if="win" @secretNb="(nb)=>this.secretNb = nb" @click="reset"/>
         <ul>
-          <li :key='nb.nb' v-for="nb in listNbTry">pour le nombre : {{ nb.nb }} la réponse était : {{ nb.response }}</li>
+          <li :key='nb.nb' v-for="nb in listNbTry">pour le nombre : {{ nb.nb }} la réponse était : {{
+              nb.response
+            }}
+          </li>
         </ul>
       </div>
+    </div>
+    <div class="row" v-else>
+      <Start @secretNb="(nb)=>this.secretNb = nb"/>
+
     </div>
   </div>
 </template>
 
 <script>
-
+//import du composant "bouton commencer"
+import Start from '@/components/StartBtn.vue'
 
 export default {
   name: 'HomeView',
-  data(){
+  data() {
     return {
-      response:"",
-      nbCoup:0,
-      secretNb:50,
-      nbTry:'',
-      listNbTry:[]
+      response: "",
+      nbCoup: 0,
+      secretNb: 0,
+      nbTry: '',
+      win: false,
+      listNbTry: []
     }
 
   },
-  methods:{
-
-  checkNb(){
-    if (this.nbTry > this.secretNb){
-      this.response = "C'est moins"
-      this.listNbTry.push({nb: this.nbTry, response: "Moins"});
+  methods: {
+    reset() {
+      this.win = false;
+      this.listNbTry = [];
       this.nbTry = "";
-      this.nbCoup++;
-    }else if(this.nbTry < this.secretNb){
-      this.response = "C'est plus"
-      this.listNbTry.push({nb: this.nbTry, response: "Plus"});
-      this.nbTry = "";
-      this.nbCoup++;
-    }else{
-      this.response = "Bravo Vous avez trouvé en " + this.nbCoup + " Coups"
-    }
-
-  },
-    createNewSecret(){
-
+      this.nbCoup = 0;
+      this.response ="";
     },
+
+    checkNb() {
+        this.nbCoup++;
+      if (this.nbTry > this.secretNb) {
+        this.response = "C'est moins"
+        this.listNbTry.push({nb: this.nbTry, response: "Moins"});
+        this.nbTry = "";
+      } else if (this.nbTry < this.secretNb) {
+
+        this.response = "C'est plus"
+        this.listNbTry.push({nb: this.nbTry, response: "Plus"});
+        this.nbTry = "";
+      } else {
+        this.response = "Bravo Vous avez trouvé en " + this.nbCoup + " Coups"
+        this.win = true;
+      }
+
+    }
   },
   components: {
+
+    Start
 
   }
 }
 </script>
 
 <style scoped>
-li{
+li {
   list-style: none;
 }
 </style>
